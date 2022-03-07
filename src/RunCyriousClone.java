@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -7,6 +6,8 @@ public class RunCyriousClone {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Scanner input = new Scanner(System.in);
+		
 		System.out.println("Welcome to text based CMS Cyrious Clone.");
 		
 		//validOptions array
@@ -20,19 +21,46 @@ public class RunCyriousClone {
 		validOptionsMain.put('e', "Employee Contact");
 		validOptionsMain.put('x', "Exit");
 		
+		LinkedHashMap<Character, String> enterNewOrExit = new LinkedHashMap<>();
+		enterNewOrExit.put('n', "Enter another");
+		enterNewOrExit.put('m', "Exit to main menu");
+		enterNewOrExit.put('x', "Exit program");
+		
 		boolean done = false;
 		
 		while(!done) {
-			Character userOption = printMenu(validOptionsMain);
+			Character userOption = printMenu(validOptionsMain, input);
 			if(userOption == 'c') {
-				System.out.println("Enter new company information...");
-				Company myCompany = new Company();
-				System.out.println(myCompany);
-				done = true;
-			} else if(userOption == 'e') {
-				System.out.println("Enter new employee information...");
+				Character subOption = 'n';
+				//stay entering new companies until exit to main menu or exit program
 				
-				done = true;
+				while(subOption == 'n') {
+					enterNewCompany();
+					
+					subOption = printMenu(enterNewOrExit, input);
+					if(subOption == 'm') {
+						System.out.println("Exiting to main menu...");
+					} else if(subOption == 'x') {
+						System.out.println("Exiting program...");
+						done = true;
+					}
+				}
+			} else if(userOption == 'e') {
+				Character subOption = 'n';
+				//stay entering new employees until exit to main menu or exit program
+				
+				while(subOption == 'n') {
+					enterNewEmployee();
+				
+					subOption = printMenu(enterNewOrExit, input);
+					if(subOption == 'm') {
+						System.out.println("Exiting to main menu...");
+					} else if(subOption == 'x') {
+						System.out.println("Exiting program...");
+						done = true;
+					}
+				}
+				
 			} else if(userOption == 'x') {
 				System.out.println("Exiting...");
 				done = true;
@@ -40,13 +68,12 @@ public class RunCyriousClone {
 				
 			}
 		}
-		
+		input.close();
 	}
 
-	private static Character printMenu(LinkedHashMap<Character,String> validOptions) {
+	private static Character printMenu(LinkedHashMap<Character,String> validOptions, Scanner input) {
 		// TODO Auto-generated method stub
 		boolean done = false;
-		Scanner userInput = new Scanner(System.in);
 		
 		while(!done) {
 			System.out.println("Use one of the following options:");
@@ -59,11 +86,10 @@ public class RunCyriousClone {
 			}
 			System.out.println();
 			
-			if(userInput.hasNextLine()) {
-				Character optionSelected = userInput.nextLine().toLowerCase().charAt(0);
+			if(input.hasNextLine()) {
+				Character optionSelected = input.nextLine().toLowerCase().charAt(0);
 				
 				if(validOptions.containsKey(optionSelected)) {
-					userInput.close();
 					done = true;
 					return optionSelected;
 				} else {
@@ -72,8 +98,19 @@ public class RunCyriousClone {
 				
 			}
 		}
-		userInput.close();
 		return null;
+	}
+
+	public static void enterNewCompany() {
+		System.out.println("Enter new COMPANY information...");
+		System.out.println("Entering info...");
+		System.out.println("Finishing the entry...");
+	}
+	
+	public static void enterNewEmployee() {
+		System.out.println("Enter new employee information...");
+		System.out.println("Entering info...");
+		System.out.println("Finishing the entry...");
 	}
 
 }
