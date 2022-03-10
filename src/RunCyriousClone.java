@@ -37,12 +37,13 @@ public class RunCyriousClone {
 				//searchMenu(input);
 				userInput = printMenu("MAIN MENU", validOptionsMain, input);
 			} else if(userInput == 'x') {
-				//
+				//this option will never be reached
 				System.out.println("Exiting...");
 			} else {
-				//should never reach here but leaving this here in case there are unforseen errors
+				//should never reach here but leaving this here in case there are unforeseen errors
 			}
 		}
+		System.out.println("Thank you for using Cyrious clone."); 
 		input.close();
 	}
 	
@@ -91,7 +92,16 @@ public class RunCyriousClone {
 				System.out.println("Entering new estimate");
 				
 				userOption = printMenu(estimates.getMenuName(), estimates.getMenuOptions(), input);
-			} 
+			} else if (userOption == 'b') {
+				System.out.println("Browsing all estimates");
+				
+				userOption = printMenu(estimates.getMenuName(), estimates.getMenuOptions(), input);
+			} else if (userOption == 's') {
+				System.out.println("Search");
+				
+				userOption = printMenu(estimates.getMenuName(), estimates.getMenuOptions(), input);
+			}
+			
 		} 
 	}
 	
@@ -108,32 +118,42 @@ public class RunCyriousClone {
 		while(userOption != 'x') {
 			if (userOption == 'w') {
 				System.out.println("Entering new work order...");
+				userOption = printMenu("WORK ORDER", workOrder.getMenuOptions(), input);
 			} else if(userOption == 'b') {
 				System.out.println("Browsing");
+				userOption = printMenu("WORK ORDER", workOrder.getMenuOptions(), input);
 			} else if(userOption == 's') {
 				System.out.println("Search");
+				userOption = printMenu("WORK ORDER", workOrder.getMenuOptions(), input);
 			}
-			userOption = printMenu("WORK ORDER", workOrder.getMenuOptions(), input);
 		} 
 	}
 
 	public static void companiesMenu(Scanner input) {
 		Character userOption = null;
-	
-		LinkedHashMap<Character, String> companyMenu = new LinkedHashMap<>();
-		companyMenu.put('c', "New Customer");		//enter new, list, search, open
-		companyMenu.put('v', "New Vendor");  	//enter new, view list, search, open
-		companyMenu.put('b', "Browse");		//enter new client or vendor, list, search, open
-		companyMenu.put('s', "Search");		//search anything
-		companyMenu.put('x', "Exit Customer Menu");			//exit
 		
-		userOption = printMenu("COMPANY", companyMenu, input);
+		Menu company = new Menu("COMPANY", input);
+		company.addMenuOption('c', "New Customer");		//enter new company
+		company.addMenuOption('v', "New Vendor");  	//enter new, view list, search, open
+		company.addMenuOption('b', "Browse");		//enter new client or vendor, list, search, open
+		company.addMenuOption('s', "Search");		//search anything
+		company.addMenuOption('x', "Exit Company Menu");			//exit
+		
+		userOption = printMenu("COMPANY", company.getMenuOptions(), input);
 		
 		while(userOption != 'x') {
 			if (userOption == 'c') {
-				System.out.println("New customer menu");
-				
-				userOption = printMenu("COMPANY", companyMenu, input);
+				System.out.println("Entering new customer info...");
+				userOption = printMenu("COMPANY", company.getMenuOptions(), input);
+			} else if(userOption == 'v') {
+				System.out.println("Entering new vendor info...");
+				userOption = printMenu("COMPANY", company.getMenuOptions(), input);
+			} else if(userOption == 'b') {
+				System.out.println("Browsing");
+				userOption = printMenu("COMPANY", company.getMenuOptions(), input);
+			} else if(userOption == 's') {
+				System.out.println("Search");
+				userOption = printMenu("COMPANY", company.getMenuOptions(), input);
 			}
 		} 
 		
