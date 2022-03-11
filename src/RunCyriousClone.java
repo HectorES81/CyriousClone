@@ -90,7 +90,8 @@ public class RunCyriousClone {
 		while(userOption != 'x') {
 			if (userOption == 'e') {
 				System.out.println("Entering new estimate");
-				
+				Estimate estimate = new Estimate();
+				estimate.orderForm();
 				userOption = printMenu(estimates.getMenuName(), estimates.getMenuOptions(), input);
 			} else if (userOption == 'b') {
 				System.out.println("Browsing all estimates");
