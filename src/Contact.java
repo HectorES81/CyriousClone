@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 
 public class Contact extends Person {
 	private String type;
@@ -10,6 +11,7 @@ public class Contact extends Person {
 	 * @param mailingAddress
 	 */
 	public Contact(String type, String title, Phone directOfficePhone, Address mailingAddress) {
+		super();
 		this.setType(type);
 		this.title = title;
 		this.directOfficePhone = directOfficePhone;
@@ -77,11 +79,35 @@ public class Contact extends Person {
 	public void setMailingAddress(Address mailingAddress) {
 		this.mailingAddress = mailingAddress;
 	}
+	
+	public void setNewContact() {
+		String firstName = "Hector";
+		String lastName = "Chicas";
+		char gender = 'm';
+		LocalDate dateOfBirth = LocalDate.of(1981, 9, 25);
+		this.type = "Employee";
+		this.title = "CEO";
+		this.directOfficePhone.setNewPhone();
+		this.mailingAddress.setNewAddress();
+		
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setGender(gender);
+		this.setDateOfBirth(dateOfBirth);
+		this.setType(type);
+		this.setTitle(title);
+		this.setDirectOfficePhone(directOfficePhone);
+		this.setMailingAddress(mailingAddress);
+
+		
+	}
 
 	@Override
 	public String toString() {
 		return "Contact [title=" + title + ", directOfficePhone=" + directOfficePhone + ", mailingAddress="
 				+ mailingAddress + ", toString()=" + super.toString() + "]";
 	}
+
+	
 	
 }

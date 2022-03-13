@@ -1,10 +1,12 @@
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
 	Scanner input;
 	String menuName;
 	LinkedHashMap<Character, String> menuOptions;
+	final static String bar = "=====";
 	
 	public Menu(String menuName, Scanner input) {
 		// TODO Auto-generated constructor stub
@@ -62,5 +64,36 @@ public class Menu {
 		this.menuOptions = menuOptions;
 	}
 	
+	public Character printMenu() {
+		Character optionSelected = ' ';
+		
+		while(optionSelected != 'x') {
+			System.out.println(bar + " " + this.menuName + " OPTIONS " + bar);
+			System.out.println("Enter the letter to choose an option:");
+			for(Map.Entry<Character, String> option : this.menuOptions.entrySet()) {
+				String sep = ","; //a comma or a space if displaying the last option aka exit
+				if(option.getKey() == 'x') {
+					sep = "";
+				}
+				System.out.println(String.format("[%s] %s%s ", option.getKey(), option.getValue(), sep));
+			}
+			
+			if(this.input.hasNextLine()) {
+				optionSelected = this.input.nextLine().toLowerCase().charAt(0);
+				
+				//System.out.println("optionSelected: " + optionSelected);
+				
+				//only way to exit is to pick a valid option from validOptions
+				if(this.menuOptions.containsKey(optionSelected)) {
+					return optionSelected;
+				} else {
+					System.out.println("Invalid option! Let's try again...");
+				}
+			}
+			//optionSelected = 'x';
+		}
+		return 'x';
+	}
+
 	
 }

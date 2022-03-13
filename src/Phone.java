@@ -98,6 +98,25 @@ public class Phone {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
+
+	public void setNewPhone() {
+		
+		this.type = "office";
+		this.number = "555-555-1234";
+		this.isDefault = true;
+		this.extension = "1001";
+		this.notes = "note sample: Call from 9am to 5pm";
+	}
+
+	@Override
+	public String toString() {
+		return "Phone [type=" + type + 
+				"\n number=" + number + 
+				"\n isDefault=" + isDefault + 
+				"\n extension=" + extension + 
+				"\n notes=" + notes + "]";
+	}
+	
 	
 	
 	

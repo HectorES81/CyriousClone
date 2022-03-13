@@ -1,29 +1,35 @@
+import java.util.Scanner;
 
-public class Address {
+public class Address implements Cloneable {
 	private String addressType;
 	private String number;
 	private String streetName;
 	private String unitNumber;
 	private String POBox;
 	private String addtionalStreetInfo;
-	private String county;
+	private String city;
 	private String state;
 	private int zipCode;
 	private int zip4Digits;
-	
+
 	public Address() {
+		this.addressType = "";
 		this.number = "";
 		this.streetName = "";
 		this.unitNumber = "";
 		this.POBox = "";
 		this.addtionalStreetInfo = "";
-		this.county = "";
+		this.city = "";
 		this.state = "";
 		this.zipCode = 00000;
 		this.zip4Digits = 0000;
-		
+
 	}
-	
+
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+
 	/**
 	 * @return the addressType
 	 */
@@ -109,17 +115,17 @@ public class Address {
 	}
 
 	/**
-	 * @return the county
+	 * @return the city
 	 */
-	public String getCounty() {
-		return county;
+	public String getCity() {
+		return city;
 	}
 
 	/**
-	 * @param county the county to set
+	 * @param city the city to set
 	 */
-	public void setCounty(String county) {
-		this.county = county;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	/**
@@ -163,6 +169,166 @@ public class Address {
 	public void setZip4Digits(int zip4Digits) {
 		this.zip4Digits = zip4Digits;
 	}
-	
-	
+
+	public Address setNewAddress() {
+		//System.out.println("Current " + this.addressType + " address info:\n" + this);
+
+		Scanner input = new Scanner(System.in);
+
+		Menu newAddressEntry = new Menu("new address menu", input);
+		newAddressEntry.addMenuOption('0', "Address Type");
+		newAddressEntry.addMenuOption('1', "Building/House Number");
+		newAddressEntry.addMenuOption('2', "Street Name");
+		newAddressEntry.addMenuOption('3', "Apt/Suite Number");
+		newAddressEntry.addMenuOption('4', "P.O. Box #");
+		newAddressEntry.addMenuOption('5', "Address Line 2");
+		newAddressEntry.addMenuOption('6', "City");
+		newAddressEntry.addMenuOption('7', "State");
+		newAddressEntry.addMenuOption('8', "Zip Code 5 digit");
+		newAddressEntry.addMenuOption('9', "Zip Code +4 digit");
+		newAddressEntry.addMenuOption('p', "Print Address Info");
+		newAddressEntry.addMenuOption('x', "exit");
+
+		char userOption = newAddressEntry.printMenu();
+
+		while (userOption != 'x') {
+			if (userOption == '0') { // addressType
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("Current " + menuName + ": " + this.addressType);
+				System.out.println("New " + menuName + " : ");
+				try {
+					this.addressType = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.addressType, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '1') { // number
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.number = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.number, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '2') { // streetName
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.streetName = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.streetName, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '3') { // unitNumber
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.unitNumber = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.unitNumber, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '4') { // POBox
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.POBox = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.POBox, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '5') { // addtionalStreetInfo
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.addtionalStreetInfo = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.addtionalStreetInfo, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '6') { // city
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.city = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.city, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '7') { // state
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.state = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.state, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '8') { // zipCode
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.zipCode = input.nextInt();
+					input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.zipCode, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == '9') { // zip4Digits
+				String menuName = newAddressEntry.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+
+				try {
+					this.zip4Digits = input.nextInt();
+					input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.zip4Digits, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newAddressEntry.printMenu();
+			} else if (userOption == 'p') { // print
+				System.out.println("Current Address Info: ");
+
+				System.out.println(this);
+
+				userOption = newAddressEntry.printMenu();
+			}
+		}
+		return this;
+	}
+
+	public boolean isEmpty() {
+		if (number == "" && streetName == "" && unitNumber == "" && POBox == "" && addtionalStreetInfo == ""
+				&& city == "" && state == "" && zipCode == 0 && zip4Digits == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [addressType=" + addressType + "\n number=" + number + "\n streetName=" + streetName
+				+ "\n unitNumber=" + unitNumber + "\n POBox=" + POBox + "\n addtionalStreetInfo=" + addtionalStreetInfo
+				+ "\n city=" + city + "\n state=" + state + "\n zipCode=" + zipCode + "\n zip4Digits=" + zip4Digits
+				+ "]";
+	}
+
 }
