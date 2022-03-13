@@ -68,7 +68,7 @@ public class Menu {
 		Character optionSelected = ' ';
 		
 		while(optionSelected != 'x') {
-			System.out.println(bar + " " + this.menuName + " OPTIONS " + bar);
+			System.out.println(bar + " " + this.menuName.toUpperCase() + " OPTIONS " + bar);
 			System.out.println("Enter the letter to choose an option:");
 			for(Map.Entry<Character, String> option : this.menuOptions.entrySet()) {
 				String sep = ","; //a comma or a space if displaying the last option aka exit
@@ -88,6 +88,7 @@ public class Menu {
 					return optionSelected;
 				} else {
 					System.out.println("Invalid option! Let's try again...");
+					
 				}
 			}
 			//optionSelected = 'x';

@@ -170,10 +170,8 @@ public class Address implements Cloneable {
 		this.zip4Digits = zip4Digits;
 	}
 
-	public Address setNewAddress() {
+	public Address setNewAddress(Scanner input) {
 		//System.out.println("Current " + this.addressType + " address info:\n" + this);
-
-		Scanner input = new Scanner(System.in);
 
 		Menu newAddressEntry = new Menu("new address menu", input);
 		newAddressEntry.addMenuOption('0', "Address Type");
@@ -312,6 +310,7 @@ public class Address implements Cloneable {
 				userOption = newAddressEntry.printMenu();
 			}
 		}
+		//input.close();
 		return this;
 	}
 

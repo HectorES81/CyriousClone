@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Company {
-	public static ArrayList<Contact> employees;
+	public static ArrayList<Contact> contacts;
+	private String type;
 	private String name;
 	private String slogan;
 	private Address billingAddress;
@@ -51,6 +52,20 @@ public class Company {
 		this.mobilePhone = mobilePhone;
 		this.fax = fax;
 		this.notes = notes;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	/**
@@ -183,22 +198,33 @@ public class Company {
 		System.out.println("Set a new company.");
 		
 		Menu newCompanyEntryMenu = new Menu("NEW COMPANY ENTRY FORM", this.input);
-		newCompanyEntryMenu.addMenuOption('0', "Company Name");
-		newCompanyEntryMenu.addMenuOption('1', "Company Slogan");
-		newCompanyEntryMenu.addMenuOption('2', "Billing Address");
-		newCompanyEntryMenu.addMenuOption('3', "Business Address");
-		newCompanyEntryMenu.addMenuOption('4', "Install Addres");
-		newCompanyEntryMenu.addMenuOption('5', "Phone Number - Office");
-		newCompanyEntryMenu.addMenuOption('6', "Phone Number - Mobile");
-		newCompanyEntryMenu.addMenuOption('7', "Phone Number - Fax");
-		newCompanyEntryMenu.addMenuOption('8', "Company Notes");
-		newCompanyEntryMenu.addMenuOption('9', "View Company Info");
+		newCompanyEntryMenu.addMenuOption('1', "Company Type");
+		newCompanyEntryMenu.addMenuOption('2', "Company Name");
+		newCompanyEntryMenu.addMenuOption('3', "Company Slogan");
+		newCompanyEntryMenu.addMenuOption('4', "Billing Address");
+		newCompanyEntryMenu.addMenuOption('5', "Business Address");
+		newCompanyEntryMenu.addMenuOption('6', "Install Address");
+		newCompanyEntryMenu.addMenuOption('7', "Phone Number - Office");
+		newCompanyEntryMenu.addMenuOption('8', "Phone Number - Mobile");
+		newCompanyEntryMenu.addMenuOption('9', "Phone Number - Fax");
+		newCompanyEntryMenu.addMenuOption('0', "Company Notes");
+		newCompanyEntryMenu.addMenuOption('p', "Print Company Info");
 		newCompanyEntryMenu.addMenuOption('x', "Exit menu");
 		
 		char userOption = newCompanyEntryMenu.printMenu();
 		
-		while(userOption != 'x') {			
-			if (userOption == '0') {
+		while(userOption != 'x') {
+			
+			if (userOption == '1') {
+				System.out.println("New Company Type : ");
+				try {
+					this.type = input.nextLine();
+					System.out.println(String.format("%s recorded as new company type.\n", this.type));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '2') {
 				System.out.println("New Company name : ");
 				try {
 					this.name = input.nextLine();
@@ -207,7 +233,7 @@ public class Company {
 					e.printStackTrace();
 				}
 				userOption = newCompanyEntryMenu.printMenu();
-			} else if (userOption == '1') {
+			} else if (userOption == '3') {
 				System.out.println("New Company slogan : ");
 				try {
 					this.slogan = input.nextLine();
@@ -216,14 +242,14 @@ public class Company {
 					e.printStackTrace();
 				}
 				userOption = newCompanyEntryMenu.printMenu();
-			} else if (userOption == '2') {
+			} else if (userOption == '4') {
 				System.out.println("New Billing Address : ");
 				try {
 					if(billingAddress.getAddressType() == "") {
 						billingAddress.setAddressType("Billing");
 					}
 					
-					this.billingAddress = this.billingAddress.setNewAddress();
+					this.billingAddress = this.billingAddress.setNewAddress(input);
 					
 
 					System.out.println(String.format("%s recorded as new billing address.\n", this.billingAddress));
@@ -231,7 +257,7 @@ public class Company {
 					e.printStackTrace();
 				}
 				userOption = newCompanyEntryMenu.printMenu();
-			} else if (userOption == '3') { //businessAddress
+			} else if (userOption == '5') { //businessAddress
 				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
 				System.out.println("New " + menuName + " : ");
 				if(!businessAddressIsCloned && this.businessAddress.isEmpty()) {
@@ -263,11 +289,98 @@ public class Company {
 				}
 				
 				try {
-					this.businessAddress = businessAddress.setNewAddress();
+					this.businessAddress = businessAddress.setNewAddress(input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.businessAddress, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '6') { //installAddress
+				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+				if(!installAddressIsCloned && this.installAddress.isEmpty()) {
+					System.out.println("Your current billing address is: " + this.billingAddress);
+					System.out.println("Use same as billing for installation? y/n : ");
+					String sameAsBilling = input.nextLine().toLowerCase();
+
+					if(sameAsBilling.charAt(0) == 'y') {
+						try {
+							this.installAddress = (Address) this.billingAddress.clone();
+						} catch (CloneNotSupportedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						this.installAddress.setAddressType("Install");
+						
+						System.out.println("Your install and billing adress are now the same.");
+						System.out.println(this.installAddress);
+						installAddressIsCloned = true;
+						continue;
+					} else if(sameAsBilling.charAt(0) == 'n') {
+						System.out.println("Cloning option declined.");
+					} else {
+						System.out.println("Invalid option, procede to change/enter infor below.");
+					}
+				} else {
+					System.out.println("Address already a clone or is not empty.");
+				}
+				
+				try {
+					this.installAddress = installAddress.setNewAddress(input);
+					System.out.println(String.format("%s recorded as new %s.\n", this.installAddress, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '7') { //officePhone
+				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+				try {
+					this.officePhone.setType("Office");
+					this.officePhone = officePhone.setNewPhone(this.input);
+					System.out.println(String.format("%s recorded as new %s.\n", this.officePhone, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '8') { //mobilePhone
+				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+				try {
+					this.mobilePhone.setType("mobile");
+					this.mobilePhone = mobilePhone.setNewPhone(this.input);
+					System.out.println(String.format("%s recorded as new %s.\n", this.mobilePhone, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '9') { //fax
+				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+				try {
+					this.fax.setType("fax");
+					this.fax = fax.setNewPhone(this.input);
+					System.out.println(String.format("%s recorded as new %s.\n", this.fax, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if (userOption == '0') { //notes
+				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
+				System.out.println("New " + menuName + " : ");
+				try {
+					this.notes = input.nextLine();
+					System.out.println(String.format("%s recorded as new %s.\n", this.notes, menuName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				userOption = newCompanyEntryMenu.printMenu();
+			} else if(userOption == 'p') {
+				System.out.println("Current Company Info: ");
+
+				System.out.println(this);
+
 				userOption = newCompanyEntryMenu.printMenu();
 			}
 			
@@ -277,7 +390,8 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [getName()=" + getName() + "\n"
+		return "Company [\n"
+				+ "getName()=" + getName() + "\n"
 				+ "getSlogan()=" + getSlogan() + "\n "
 				+ "getBillingAddress()=" +  getBillingAddress() + "\n"
 				+ "getBusinessAddress()=" + getBusinessAddress() + "\n"
@@ -287,6 +401,4 @@ public class Company {
 				+ "getFax()=" + getFax() + "\n"
 				+ "getNotes()=" + getNotes() + "]";
 	}
-	
-		
 }

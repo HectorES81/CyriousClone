@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Contact extends Person {
 	private String type;
@@ -87,8 +88,8 @@ public class Contact extends Person {
 		LocalDate dateOfBirth = LocalDate.of(1981, 9, 25);
 		this.type = "Employee";
 		this.title = "CEO";
-		this.directOfficePhone.setNewPhone();
-		this.mailingAddress.setNewAddress();
+		this.directOfficePhone.setNewPhone(new Scanner(System.in));
+		this.mailingAddress.setNewAddress(new Scanner(System.in));
 		
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
