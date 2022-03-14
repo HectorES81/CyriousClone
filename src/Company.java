@@ -1,7 +1,18 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Company {
+public class Company implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static ArrayList<Contact> contacts;
 	private String type;
 	private String name;
@@ -15,9 +26,18 @@ public class Company {
 	private Phone mobilePhone;
 	private Phone fax;
 	private String notes;
-	private Scanner input;
+	static Scanner input;
 	
-	public Company(Scanner input) {
+	/*
+	 * Other potential fields
+	 * website
+	 * products offered by that company
+	 * services offered by that company
+	 * tax exempt status
+	 * company number
+	 */
+	
+	public Company() {
 		this.name = "";
 		this.setSlogan("");
 		this.billingAddress = new Address();
@@ -27,7 +47,7 @@ public class Company {
 		this.mobilePhone = new Phone();
 		this.fax = new Phone();
 		this.notes = "";
-		this.input = input;
+		Company.input = new Scanner(System.in);
 	}
 
 	/**
@@ -193,11 +213,16 @@ public class Company {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
+	public void setNewCompany(String type) {
+		this.type = type;
+		setNewCompany();
+		
+	}
 	
 	public void setNewCompany() {
 		System.out.println("Set a new company.");
 		
-		Menu newCompanyEntryMenu = new Menu("NEW COMPANY ENTRY FORM", this.input);
+		Menu newCompanyEntryMenu = new Menu("NEW COMPANY ENTRY FORM", Company.input);
 		newCompanyEntryMenu.addMenuOption('1', "Company Type");
 		newCompanyEntryMenu.addMenuOption('2', "Company Name");
 		newCompanyEntryMenu.addMenuOption('3', "Company Slogan");
@@ -218,7 +243,7 @@ public class Company {
 			if (userOption == '1') {
 				System.out.println("New Company Type : ");
 				try {
-					this.type = input.nextLine();
+					this.type = Company.input.nextLine();
 					System.out.println(String.format("%s recorded as new company type.\n", this.type));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -227,7 +252,7 @@ public class Company {
 			} else if (userOption == '2') {
 				System.out.println("New Company name : ");
 				try {
-					this.name = input.nextLine();
+					this.name = Company.input.nextLine();
 					System.out.println(String.format("%s recorded as new company name.\n", this.name));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -236,7 +261,7 @@ public class Company {
 			} else if (userOption == '3') {
 				System.out.println("New Company slogan : ");
 				try {
-					this.slogan = input.nextLine();
+					this.slogan = Company.input.nextLine();
 					System.out.println(String.format("%s recorded as new slogan.\n", this.slogan));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -249,7 +274,7 @@ public class Company {
 						billingAddress.setAddressType("Billing");
 					}
 					
-					this.billingAddress = this.billingAddress.setNewAddress(input);
+					this.billingAddress = this.billingAddress.setNewAddress(Company.input);
 					
 
 					System.out.println(String.format("%s recorded as new billing address.\n", this.billingAddress));
@@ -263,13 +288,13 @@ public class Company {
 				if(!businessAddressIsCloned && this.businessAddress.isEmpty()) {
 					System.out.println("Your current billing address is: " + this.billingAddress);
 					System.out.println("Use same as billing for business? y/n : ");
-					String sameAsBilling = input.nextLine().toLowerCase();
+					String sameAsBilling = Company.input.nextLine().toLowerCase();
 
 					if(sameAsBilling.charAt(0) == 'y') {
 						try {
 							this.businessAddress = (Address) this.billingAddress.clone();
 						} catch (CloneNotSupportedException e) {
-							// TODO Auto-generated catch block
+							
 							e.printStackTrace();
 						}
 						
@@ -289,7 +314,7 @@ public class Company {
 				}
 				
 				try {
-					this.businessAddress = businessAddress.setNewAddress(input);
+					this.businessAddress = businessAddress.setNewAddress(Company.input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.businessAddress, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -301,7 +326,7 @@ public class Company {
 				if(!installAddressIsCloned && this.installAddress.isEmpty()) {
 					System.out.println("Your current billing address is: " + this.billingAddress);
 					System.out.println("Use same as billing for installation? y/n : ");
-					String sameAsBilling = input.nextLine().toLowerCase();
+					String sameAsBilling = Company.input.nextLine().toLowerCase();
 
 					if(sameAsBilling.charAt(0) == 'y') {
 						try {
@@ -327,7 +352,7 @@ public class Company {
 				}
 				
 				try {
-					this.installAddress = installAddress.setNewAddress(input);
+					this.installAddress = installAddress.setNewAddress(Company.input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.installAddress, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -338,7 +363,7 @@ public class Company {
 				System.out.println("New " + menuName + " : ");
 				try {
 					this.officePhone.setType("Office");
-					this.officePhone = officePhone.setNewPhone(this.input);
+					this.officePhone = officePhone.setNewPhone(Company.input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.officePhone, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -349,7 +374,7 @@ public class Company {
 				System.out.println("New " + menuName + " : ");
 				try {
 					this.mobilePhone.setType("mobile");
-					this.mobilePhone = mobilePhone.setNewPhone(this.input);
+					this.mobilePhone = mobilePhone.setNewPhone(Company.input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.mobilePhone, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -360,7 +385,7 @@ public class Company {
 				System.out.println("New " + menuName + " : ");
 				try {
 					this.fax.setType("fax");
-					this.fax = fax.setNewPhone(this.input);
+					this.fax = fax.setNewPhone(Company.input);
 					System.out.println(String.format("%s recorded as new %s.\n", this.fax, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -370,7 +395,7 @@ public class Company {
 				String menuName = newCompanyEntryMenu.getMenuOptions().get(userOption);
 				System.out.println("New " + menuName + " : ");
 				try {
-					this.notes = input.nextLine();
+					this.notes = Company.input.nextLine();
 					System.out.println(String.format("%s recorded as new %s.\n", this.notes, menuName));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -388,9 +413,50 @@ public class Company {
 		}
 	}
 
+	public void saveToFile() {
+		try {
+			FileWriter fWriter = new FileWriter("company-info-" + this.name + ".txt");
+			fWriter.write(this.toString());
+			
+			fWriter.close();
+			
+			System.out.println("File saved!");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void saveToBinaryFile() {
+		try (FileOutputStream fos = new FileOutputStream("obj-" + this.name + ".dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			
+			oos.writeObject(this);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	static Object openFromBinaryFile(String filename) {
+		// TODO Auto-generated method stub
+		try {
+			FileInputStream fis = new FileInputStream(new File(filename));
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Object obj = ois.readObject();
+			ois.close();
+			return obj;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Company [\n"
+				+ "getType()=" + getType() + "\n"
 				+ "getName()=" + getName() + "\n"
 				+ "getSlogan()=" + getSlogan() + "\n "
 				+ "getBillingAddress()=" +  getBillingAddress() + "\n"
@@ -401,4 +467,6 @@ public class Company {
 				+ "getFax()=" + getFax() + "\n"
 				+ "getNotes()=" + getNotes() + "]";
 	}
+
+
 }

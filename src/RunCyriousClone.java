@@ -110,7 +110,7 @@ public class RunCyriousClone {
 		companyMenu.addMenuOption('x', "Exit Company Menu");			//exit
 		
 		userOption = companyMenu.printMenu();
-		Company company = new Company(input);
+		
 		
 		//get fresh copy of all companies in database
 		
@@ -122,11 +122,20 @@ public class RunCyriousClone {
 
 		while(userOption != 'x') {
 			if (userOption == 'c') {
-				company.setNewCompany();
+				Company customer = new Company();
+				System.out.print("Enter file name to open or hit enter to skip: ");
+				String filename = input.nextLine();
+				if(!filename.isEmpty()) {
+					customer = (Company) Company.openFromBinaryFile(filename);
+				}
+				
+				customer.setNewCompany("Customer");
+				customer.saveToBinaryFile();
 				//continue;
 				userOption = companyMenu.printMenu();
 			} else if(userOption == 'v') {
-				System.out.println("Entering new vendor info...");
+				Company vendor = new Company();
+				vendor.setNewCompany("Customer");
 				userOption = companyMenu.printMenu();
 			} else if(userOption == 'b') {
 				System.out.println("Browsing");

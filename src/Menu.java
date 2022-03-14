@@ -88,7 +88,6 @@ public class Menu {
 					return optionSelected;
 				} else {
 					System.out.println("Invalid option! Let's try again...");
-					
 				}
 			}
 			//optionSelected = 'x';

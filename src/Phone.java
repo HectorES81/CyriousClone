@@ -1,6 +1,9 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Phone {
+import javafxTest.ModalWindow;
+
+public class Phone implements Serializable {
 	private String type;
 	private String number;
 	private boolean isDefault;
@@ -106,6 +109,8 @@ public class Phone {
 	public Phone setNewPhone(Scanner input) {
 		//Scanner input = new Scanner(System.in);
 		//this.input = input;
+		
+		ModalWindow.main(new String[] {});
 		
 		Menu setNewPhone = new Menu("NEW PHONE", input);
 		setNewPhone.addMenuOption('1', "Phone Type");

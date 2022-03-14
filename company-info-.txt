@@ -1,0 +1,55 @@
+Company [
+getName()=
+getSlogan()=
+ getBillingAddress()=Address [addressType=
+ number=
+ streetName=
+ unitNumber=
+ POBox=
+ addtionalStreetInfo=
+ city=
+ state=
+ zipCode=0
+ zip4Digits=0]
+getBusinessAddress()=Address [addressType=
+ number=
+ streetName=
+ unitNumber=
+ POBox=
+ addtionalStreetInfo=
+ city=
+ state=
+ zipCode=0
+ zip4Digits=0]
+getInstallAddress()=Address [addressType=
+ number=
+ streetName=
+ unitNumber=
+ POBox=
+ addtionalStreetInfo=
+ city=
+ state=
+ zipCode=0
+ zip4Digits=0]
+getOfficePhone()=Phone [
+type=
+ number=
+ isDefault=false
+ isTextOk=false
+ extension=
+ notes=]
+getMobilePhone()=Phone [
+type=
+ number=
+ isDefault=false
+ isTextOk=false
+ extension=
+ notes=]
+getFax()=Phone [
+type=
+ number=
+ isDefault=false
+ isTextOk=false
+ extension=
+ notes=]
+getNotes()=]

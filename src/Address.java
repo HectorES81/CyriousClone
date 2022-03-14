@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Address implements Cloneable {
+public class Address implements Cloneable, Serializable {
 	private String addressType;
 	private String number;
 	private String streetName;
